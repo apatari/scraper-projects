@@ -6,6 +6,8 @@ result = requests.get(url)
 
 doc = BeautifulSoup(result.text, "html.parser")
 
+def stripPrice(price):
+    return (float(price.strip("$")))
 
 prices = doc.find_all(attrs={"data-id":"productListingPrice"})
 
@@ -17,7 +19,11 @@ for price in prices:
     highPrice = price.find("span")
     res.append({"name": name.text, "price":highPrice.text})
 
-res.sort(key=lambda item: item['price'])
+res.sort(key=lambda item: stripPrice(item['price']))
 
-for item in res:
+
+
+filteredResults = [item for item in res if stripPrice(item['price']) < 300 ]
+
+for item in filteredResults:
     print(item)
