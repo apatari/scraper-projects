@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 
-def bcSearcher(param, max):
+def bcSearcher(param, max, min):
 
     url = f"https://www.backcountry.com/search?s=u&q={param}"
     result = requests.get(url)
@@ -16,13 +16,13 @@ def bcSearcher(param, max):
         name = price.parent.parent.parent.find("h2", attrs={"data-id": "productListingTitle"})
 
         priceString = price.find_all(class_="chakra-text")[0].contents[-1]
-        priceFloat = float(priceString.strip("$"))
+        priceFloat = float(priceString.strip("$").replace(",",""))
 
         res.append({"name": name.text, "priceString":priceString, "priceFloat":priceFloat})
 
     res.sort(key=lambda item: (item['priceFloat']))
 
-    filteredResults = [item for item in res if item['priceFloat'] < max ]
+    filteredResults = [item for item in res if min <= item['priceFloat'] <= max ]
 
     return filteredResults
 
