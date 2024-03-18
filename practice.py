@@ -9,6 +9,10 @@ doc = BeautifulSoup(result.text, "html.parser")
 
 prices = doc.find_all(attrs={"data-id":"productListingPrice"})
 
-highPrice = prices[0].find("span")
 
-print(highPrice.text)
+for price in prices:
+    name = price.parent.parent.parent.find("h2", attrs={"data-id": "productListingTitle"})
+
+    highPrice = price.find("span")
+
+    print(highPrice.text, ", ", name.text)
