@@ -1,29 +1,30 @@
 from bs4 import BeautifulSoup
 import requests
 
-url = "https://www.backcountry.com/search?s=u&q=rope"
-result = requests.get(url)
+def bcSearcher(param, max):
 
-doc = BeautifulSoup(result.text, "html.parser")
+    url = f"https://www.backcountry.com/search?s=u&q={param}"
+    result = requests.get(url)
 
-def stripPrice(price):
-    return (float(price.strip("$")))
+    doc = BeautifulSoup(result.text, "html.parser")
 
-prices = doc.find_all(attrs={"data-id":"productListingPrice"})
+    def stripPrice(price):
+        return (float(price.strip("$")))
 
-res = []
+    prices = doc.find_all(attrs={"data-id":"productListingPrice"})
 
-for price in prices:
-    name = price.parent.parent.parent.find("h2", attrs={"data-id": "productListingTitle"})
+    res = []
 
-    highPrice = price.find("span")
-    res.append({"name": name.text, "price":highPrice.text})
+    for price in prices:
+        name = price.parent.parent.parent.find("h2", attrs={"data-id": "productListingTitle"})
 
-res.sort(key=lambda item: stripPrice(item['price']))
+        highPrice = price.find("span")
+        res.append({"name": name.text, "price":highPrice.text})
+
+    res.sort(key=lambda item: stripPrice(item['price']))
 
 
 
-filteredResults = [item for item in res if stripPrice(item['price']) < 300 ]
+    filteredResults = [item for item in res if stripPrice(item['price']) < max ]
 
-for item in filteredResults:
-    print(item)
+    return filteredResults
