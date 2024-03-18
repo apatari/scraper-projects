@@ -9,10 +9,15 @@ doc = BeautifulSoup(result.text, "html.parser")
 
 prices = doc.find_all(attrs={"data-id":"productListingPrice"})
 
+res = []
 
 for price in prices:
     name = price.parent.parent.parent.find("h2", attrs={"data-id": "productListingTitle"})
 
     highPrice = price.find("span")
+    res.append({"name": name.text, "price":highPrice.text})
 
-    print(highPrice.text, ", ", name.text)
+res.sort(key=lambda item: item['price'])
+
+for item in res:
+    print(item)
