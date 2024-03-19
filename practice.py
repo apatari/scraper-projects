@@ -16,7 +16,7 @@ def bcSearcher(param, max, min):
         name = price.parent.parent.parent.find("h2", attrs={"data-id": "productListingTitle"})
 
         anchor = price.parent.parent.parent.parent.find("a", class_="chakra-linkbox__overlay")
-        link = anchor.attrs['href']
+        link = "https://www.backcountry.com" + anchor.attrs['href']
 
         priceString = price.find_all(class_="chakra-text")[0].contents[-1]
         priceFloat = float(priceString.strip("$").replace(",",""))
