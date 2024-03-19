@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 
-def bcSearcher(param, max, min):
+def bcSearcherOnePage(param, min, max):
 
     url = f"https://www.backcountry.com/search?s=u&q={param}"
     result = requests.get(url)
