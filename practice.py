@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 
-def bcSearcherOnePage(param, min, max):
+def bcOnePage(param, min, max):
 
     url = f"https://www.backcountry.com/search?s=u&q={param}"
     result = requests.get(url)
@@ -29,7 +29,7 @@ def bcSearcherOnePage(param, min, max):
 
     return filteredResults
 
-def BC(param, min, max):
+def bcMultiPage(param, min, max):
 
     url = f"https://www.backcountry.com/search?s=u&q={param}"
     result = requests.get(url)
