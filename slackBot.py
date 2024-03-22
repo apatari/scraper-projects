@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from slack_sdk import WebClient
 import os
 
-def send(msg):
+def sendToSlack(msg):
     load_dotenv()
 
     # msg = ""
