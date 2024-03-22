@@ -13,4 +13,4 @@ if __name__ == "__main__":
         line = ""
         line += f"{item['name']} Price: {item['priceString']} \n"
         msg += line
-    print(msg)
+    sendToSlack(msg)
