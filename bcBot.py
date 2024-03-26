@@ -3,14 +3,23 @@
 
 from practice import bcMultiPage
 from slackBot import sendToSlack
+from flask import Flask
+
+app = Flask(__name__)
 
 if __name__ == "__main__":
-    items = bcMultiPage("climbing rope", 200, 210)
+    app.run(debug=True, port=8000)
 
-    msg = ""
 
-    for item in items:
-        line = ""
-        line += f"{item['name']} Price: {item['priceString']} \n"
-        msg += line
-    sendToSlack(msg)
+
+
+
+    # items = bcMultiPage("climbing rope", 200, 210)
+
+    # msg = ""
+
+    # for item in items:
+    #     line = ""
+    #     line += f"{item['name']} Price: {item['priceString']} \n"
+    #     msg += line
+    # sendToSlack(msg)
