@@ -5,11 +5,6 @@ import os
 def sendToSlack(msg):
     load_dotenv()
 
-    # msg = ""
-    # l = [{"a": "b", "c":"d"}, {"a": "r", "ct":"y"}]
-    # for item in l:
-    #     msg += (str(item['a']) + '\n')
-
 
     client = WebClient(token=os.environ.get("SLACK_TOKEN"))
 
