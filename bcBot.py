@@ -3,9 +3,18 @@
 
 from practice import bcMultiPage
 from slackBot import sendToSlack
+from dotenv import load_dotenv
+import os
 from flask import Flask
+from slackeventsapi import SlackEventAdapter
+
+load_dotenv()
 
 app = Flask(__name__)
+
+slack_event_adapter = SlackEventAdapter(
+    os.environ.get('SIGNING_SECRET'),'/slack/events',app)
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
