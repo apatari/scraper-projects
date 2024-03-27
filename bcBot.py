@@ -15,6 +15,10 @@ app = Flask(__name__)
 slack_event_adapter = SlackEventAdapter(
     os.environ.get('SIGNING_SECRET'),'/slack/events',app)
 
+@slack_event_adapter.on('message')
+def message(payload):
+    event = payload.get('event', {})
+    print(event)
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
