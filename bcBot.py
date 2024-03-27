@@ -18,7 +18,9 @@ slack_event_adapter = SlackEventAdapter(
 @slack_event_adapter.on('message')
 def message(payload):
     event = payload.get('event', {})
-    print(event)
+    if event['text'] == 'hi':
+        sendToSlack('hi back')
+    
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
