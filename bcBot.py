@@ -15,11 +15,11 @@ app = Flask(__name__)
 slack_event_adapter = SlackEventAdapter(
     os.environ.get('SIGNING_SECRET'),'/slack/events',app)
 
-@slack_event_adapter.on('message')
-def message(payload):
-    event = payload.get('event', {})
-    if event['text'] == 'hi':
-        sendToSlack('hi back')
+# @slack_event_adapter.on('message')
+# def message(payload):
+#     event = payload.get('event', {})
+#     if event['text'] == 'hi':
+#         sendToSlack('hi back')
 
 @app.route('/bcscrape', methods=['POST'])
 def bcscrape():
@@ -27,8 +27,22 @@ def bcscrape():
     arr = text.split(' ')
     if len(arr) != 3:
         sendToSlack("Must include three space separated arguments: search term, min price, max price")
-    msg = f"Search term: {arr[0]}, min: {arr[1]}, max: {arr[2]}"
-    sendToSlack(msg)
+    
+    else:
+        try:
+            arr[1] = int(arr[1])
+            arr[2] = int(arr[2])
+
+            if arr[2] <= arr[1]:
+                sendToSlack("Max must be greater than min")
+                return Response(), 200
+            
+            arr[0] = arr[0].replace("-", " ")
+            
+            msg = f"Search term: {arr[0]}, min: {arr[1]}, max: {arr[2]}"
+            sendToSlack(msg)
+        except:
+            sendToSlack("Second and third arguments must be numbers")
 
     return Response(), 200
 
