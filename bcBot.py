@@ -23,7 +23,9 @@ def message(payload):
 
 @app.route('/bcscrape', methods=['POST'])
 def bcscrape():
-    
+    text = request.form['text']
+    sendToSlack(text)
+
     return Response(), 200
 
     
