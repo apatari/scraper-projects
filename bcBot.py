@@ -24,7 +24,11 @@ def message(payload):
 @app.route('/bcscrape', methods=['POST'])
 def bcscrape():
     text = request.form['text']
-    sendToSlack(text)
+    arr = text.split(' ')
+    if len(arr) != 3:
+        sendToSlack("Must include three space separated arguments: search term, min price, max price")
+    msg = f"Search term: {arr[0]}, min: {arr[1]}, max: {arr[2]}"
+    sendToSlack(msg)
 
     return Response(), 200
 
