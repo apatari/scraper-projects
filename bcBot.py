@@ -1,7 +1,7 @@
 # this is a script to send the desired info to my test slack channel at an interval
 # that i choose with crontab
 
-from practice import bcMultiPage
+from practice import bcMultiPage, bcOnePage
 from slackBot import sendToSlack
 from dotenv import load_dotenv
 import os
@@ -38,9 +38,17 @@ def bcscrape():
                 return Response(), 200
             
             arr[0] = arr[0].replace("-", " ")
-            
-            msg = f"Search term: {arr[0]}, min: {arr[1]}, max: {arr[2]}"
+
+            items = bcOnePage(arr[0], arr[1], arr[2])
+
+            msg = f"Search results for \'{arr[0]}\' between ${arr[1]} and ${arr[2]}: \n \n \n"
+
+            for item in items:
+                line = ""
+                line += f"{item['name']} Price: {item['priceString']} \n \n"
+                msg += line
             sendToSlack(msg)
+            
         except:
             sendToSlack("Second and third arguments must be numbers")
 
