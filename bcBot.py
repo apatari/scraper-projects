@@ -5,7 +5,7 @@ from practice import bcMultiPage
 from slackBot import sendToSlack
 from dotenv import load_dotenv
 import os
-from flask import Flask
+from flask import Flask, request, Response
 from slackeventsapi import SlackEventAdapter
 
 load_dotenv()
@@ -20,6 +20,12 @@ def message(payload):
     event = payload.get('event', {})
     if event['text'] == 'hi':
         sendToSlack('hi back')
+
+@app.route('/bcscrape', methods=['POST'])
+def bcscrape():
+    
+    return Response(), 200
+
     
 
 if __name__ == "__main__":
